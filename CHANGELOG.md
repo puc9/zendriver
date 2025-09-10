@@ -9,13 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix `evaluate` to return the correct value instead of None for falsy values @thromer
-
 ### Added
 
 ### Changed
 
 ### Removed
+
+## [0.14.2] - 2025-09-09
+
+### Fixed
+
+- Fix `evaluate` to return the correct value instead of None for falsy values @thromer
 
 ## [0.14.1] - 2025-09-07
 
