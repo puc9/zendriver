@@ -174,10 +174,7 @@ class Browser:
 
     @property
     def stopped(self) -> bool:
-        if self._process and self._process.returncode is None:
-            return False
-        return True
-        # return (self._process and self._process.returncode) or False
+        return not (self._process and self._process.poll() is None)
 
     async def wait(self, time: Union[float, int] = 1) -> Browser:
         """wait for <time> seconds. important to use, especially in between page navigation
@@ -614,8 +611,13 @@ class Browser:
         if not self.connection and not self._process:
             return
 
-        if self.connection:
-            await self.connection.send(cdp.browser.close())
+        if self.connection and not self.connection.closed:
+            try:
+                await self.connection.send(cdp.browser.close())
+            except Exception:
+                logger.warning(
+                    "Could not send the close command when stopping the browser. Likely the browser is already gone. Closing the connection."
+                )
             await self.connection.aclose()
             logger.debug("closed the connection")
 
